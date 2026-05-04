@@ -26,6 +26,6 @@ pip install datasets
 ```
 ```python
 from datasets import load_dataset
-dataset = load_dataset("your-username/wood-defect-dataset")
+dataset = load_dataset("AngeloUNIMI/Granulo-10k")
 ```
 
