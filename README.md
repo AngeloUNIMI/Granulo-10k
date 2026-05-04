@@ -5,7 +5,7 @@ Dataset can be downloaded from Hugging Face [here](https://huggingface.co/datase
 how to load:
 
 ```bash
-pip install datasets
+pip install datasets'''
 
 ```python
 from datasets import load_dataset
