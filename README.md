@@ -1,3 +1,4 @@
 # Granulo-10k
 
-The dataset will be released upon acceptance of the paper.
+Dataset can be downloaded from Hugging Face:
+Download the dataset [here]([https://huggingface.co/datasets/your-username/wood-defect-dataset](https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k))
