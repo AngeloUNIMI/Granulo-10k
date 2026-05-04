@@ -1,8 +1,5 @@
 # Granulo-10k
-
 Dataset can be downloaded from Hugging Face [here](https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k).
-
-# Granulo-10k
 
 ## Description
 Granulo-10k: A Large-Scale Benchmark Dataset for Multiple-View Industrial Granulometry, ICIP 2026.
