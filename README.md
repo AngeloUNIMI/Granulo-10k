@@ -8,9 +8,11 @@ Granulo-10k: A Large-Scale Benchmark Dataset for Multiple-View Industrial Granul
 Images
 - strands_compliant
 - strands_non_compliant
+
 Masks
 - strands_compliant
 - strands_non_compliant
+
 PCs
 - strands_compliant
 - strands_non_compliant
