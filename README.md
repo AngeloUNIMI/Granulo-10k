@@ -2,7 +2,7 @@
 
 Dataset can be downloaded from Hugging Face [here](https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k).
 
-how to load:
+How to load:
 
 ```bash
 pip install datasets
