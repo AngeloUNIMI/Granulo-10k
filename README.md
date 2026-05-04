@@ -4,7 +4,9 @@ Dataset can be downloaded from Hugging Face [here](https://huggingface.co/datase
 
 how to load:
 
-'pip install datasets'
+```bash
+pip install datasets
+
 ```python
 from datasets import load_dataset
 dataset = load_dataset("your-username/wood-defect-dataset")
