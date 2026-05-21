@@ -188,7 +188,7 @@ DINO ViT-B/14 with point-cloud input achieves the strongest performance for heig
 
 ---
 
-## 📖 Citation
+## Citation
 
 If you use Granulo-10k in your research, please cite the associated paper:
 
