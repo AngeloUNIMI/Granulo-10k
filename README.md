@@ -68,6 +68,14 @@ Images were collected using a calibrated multiple-view acquisition system compos
 
 The two cameras were placed at the same height and oriented at an angle of approximately `85 deg` with respect to the support, with a camera distance of `125 mm`. LED bars were placed at approximately `90 mm` from the cameras.
 
+<p align="center">
+  <img src="figures/fig1_acquisition_setup.png" alt="Outline of the multiple-view acquisition setup" width="520">
+</p>
+
+<p align="center">
+  <em>Fig. 1. Outline of the multiple-view acquisition setup used to capture synchronized views of falling strands.</em>
+</p>
+
 Each strand was dropped from random positions above the cameras, while ensuring that it fell inside the intersection of the two fields of view. To increase acquisition variability, each strand was acquired 24 times:
 
 - 8 frontal drops
@@ -91,6 +99,14 @@ For each paired acquisition, Granulo-10k provides:
 - associated 3D point cloud
 - ground-truth height, width, and thickness measurements
 - compliance category
+
+<p align="center">
+  <img src="figures/fig2_dataset_examples.png" alt="Examples of Granulo-10k strands with images, masks, and point clouds" width="900">
+</p>
+
+<p align="center">
+  <em>Fig. 2. Examples of three strands captured with the two-camera setup. Each acquisition includes RGB images, segmentation masks, and a corresponding 3D point cloud.</em>
+</p>
 
 ---
 
