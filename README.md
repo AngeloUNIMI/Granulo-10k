@@ -1,6 +1,7 @@
 # Granulo-10k
 
 <p align="center">
+  <img href="imgs/example.png" />
   <b>A large-scale benchmark dataset for multiple-view industrial granulometry of OSB wood strands.</b>
 </p>
 
