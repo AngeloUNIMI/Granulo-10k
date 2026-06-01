@@ -51,7 +51,7 @@ Granulo-10k addresses a key limitation in industrial wood-vision research: many 
 
 <div align="center">
 
-![Granulo-10k example](figures/example.png)
+![Granulo-10k example](figures/fig2_dataset_examples.png)
 
 </div>
 
@@ -211,7 +211,7 @@ DINO ViT-B/14 with point-cloud input achieves the strongest performance for heig
 
 ## 🔗 Related Work: IPAN_3D
 
-Granulo-10k is closely related to the earlier **IPAN_3D** work on image-processing-based 3D granulometry.
+Granulo-10k is closely related to the earlier work on image-processing-based 3D granulometry.
 
 The related repository provides MATLAB source code for the 2019 IEEE Transactions on Industrial Informatics paper:
 
@@ -225,7 +225,7 @@ Useful links:
 - Project page: http://iebil.di.unimi.it/projects/ipan
 - Paper: https://ieeexplore.ieee.org/document/8411142
 
-IPAN_3D can be considered a methodological precursor for multiple-view industrial granulometry, while Granulo-10k provides a larger benchmark dataset for modern learning-based methods using synchronized images, masks, point clouds, and strand-level granulometric ground truth.
+It can be considered a methodological precursor for multiple-view industrial granulometry, while Granulo-10k provides a larger benchmark dataset for modern learning-based methods using synchronized images, masks, point clouds, and strand-level granulometric ground truth.
 
 ---
 
