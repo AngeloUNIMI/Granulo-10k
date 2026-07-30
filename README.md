@@ -5,6 +5,7 @@
 ### A large-scale benchmark dataset and PyTorch baseline for multiple-view industrial granulometry
 
 [![Dataset](https://img.shields.io/badge/Dataset-Hugging%20Face-yellow?logo=huggingface)](https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k)
+[![Related Code](https://img.shields.io/badge/Related-IPAN__3D-blue?logo=github)](https://github.com/AngeloUNIMI/IPAN_3D)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Task](https://img.shields.io/badge/Task-Industrial%203D%20Granulometry-green)](#supported-tasks)
 
@@ -14,7 +15,7 @@
 
 ---
 
-## Overview
+## 🧭 Overview
 
 Granulo-10k is designed for research on the geometric analysis of wood strands used in the production of Oriented Strand Board (OSB). The dataset supports the estimation of:
 
@@ -25,19 +26,19 @@ Granulo-10k is designed for research on the geometric analysis of wood strands u
 
 The repository also contains the PyTorch implementation used to evaluate convolutional networks, modern visual backbones, PointNet++ features, and multi-task decoders for joint granulometric regression.
 
-## Dataset at a glance
+## ✨ Dataset at a Glance
 
 | Feature | Description |
 |---|---|
-| RGB images | 9,600 images at `1280 x 960` pixels |
-| Unique strands | 200 |
-| Acquisitions | 24 per strand |
-| Views | 2 synchronized cameras per acquisition |
-| Segmentation | Binary masks for both views |
-| 3D information | Point cloud for each paired acquisition |
-| Ground truth | Height, width, and thickness in millimetres |
-| Categories | 100 compliant and 100 non-compliant strands |
-| Evaluation | Strand-disjoint splitting |
+| 🖼️ RGB images | **9,600** images at `1280 x 960` resolution |
+| 🌲 Strands | **200** unique OSB wood strands |
+| 🔁 Acquisitions | **24** acquisitions per strand |
+| 📷 Views | **2 synchronized camera views** per acquisition |
+| 🎯 Masks | Segmentation masks for each paired acquisition |
+| ☁️ 3D data | Point clouds associated with paired acquisitions |
+| 📏 Ground truth | Height, width, and thickness measurements |
+| 🏷️ Labels | Compliant / non-compliant strand categories |
+| 🧪 Protocol | Strand-disjoint evaluation to avoid train-test leakage |
 
 Each strand was acquired eight times from a frontal starting position, eight times from a sideways position, and eight times from an intermediate position.
 
@@ -47,9 +48,16 @@ Each strand was acquired eight times from a frontal starting position, eight tim
 
 </div>
 
-## Acquisition system
+## 🏗️ Acquisition System
 
-The dataset was collected using two synchronized Sony SX90CR colour cameras, a photocell-based trigger, and four LED bars for approximately uniform illumination. The cameras were calibrated and positioned at the same height, at an angle of approximately `85 degrees` with respect to the support and with a distance of `125 mm` between them.
+Images were collected using a calibrated multiple-view acquisition system composed of:
+
+- two synchronized **Sony SX90CR** color cameras
+- a trigger mechanism connected to a photocell
+- four LED bars for approximately uniform illumination
+- calibrated camera geometry for multiple-view reconstruction
+
+The two cameras were placed at the same height and oriented at approximately `85°` with respect to the support, with a camera distance of `125 mm`. LED bars were placed at approximately `90 mm` from the cameras.
 
 <div align="center">
 
@@ -57,13 +65,13 @@ The dataset was collected using two synchronized Sony SX90CR colour cameras, a p
 
 </div>
 
-The total number of images is:
+Each strand was dropped from random positions above the cameras while ensuring that it fell inside the intersection of the two fields of view. To increase acquisition variability, each strand was acquired 24 times:
 
 ```text
 200 strands x 24 acquisitions x 2 cameras = 9,600 RGB images
 ```
 
-## Repository structure
+## 📦 Repository Structure
 
 ```text
 Granulo-10k/
@@ -89,17 +97,59 @@ Granulo-10k/
 
 The root README introduces the complete dataset and repository. Additional implementation details are available in [`code/README.md`](code/README.md).
 
-## Downloading the dataset
+## 📥 Downloading the Dataset
 
-The dataset is hosted on Hugging Face:
+The dataset can be downloaded from Hugging Face:
+
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("AngeloUNIMI/Granulo-10k")
+```
+
+Dataset page:
 
 ```text
 https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k
 ```
 
+## 📦 Dataset Content
+
+For each paired acquisition, Granulo-10k provides:
+
+```text
+Granulo-10k/
+├── Images/        # RGB images from synchronized camera views
+├── Masks/         # Segmentation masks for each view
+├── PCs/           # 3D point clouds
+└── README.md      # Dataset description and citation
+```
+
+Each acquisition includes:
+
+- RGB image from camera 1
+- RGB image from camera 2
+- segmentation mask for camera 1
+- segmentation mask for camera 2
+- associated 3D point cloud
+- ground-truth height, width, and thickness measurements
+- compliance category
+---
+
+## 🌲 Strand Categories
+
+The dataset includes 200 manually measured strands divided into two classes:
+
+| Category | Number of strands | Reference average size |
+|---|---:|---|
+| ✅ Compliant | 100 | `h x w x t = 115 x 20 x 0.70 mm` |
+| ⚠️ Non-compliant | 100 | `h x w x t = 91 x 9 x 0.65 mm` |
+
+For each strand, maximum height and width were measured using a caliper. Since thickness can vary across the strand surface, multiple thickness measurements were collected at different points and averaged.
+
 Download the dataset files from the Hugging Face page and arrange them according to the directory structure expected by the code, described below.
 
-## Dataset organization expected by the code
+## Dataset Organization Expected by the Code
 
 The current training script uses the following dataset root in `code/cnn_osb.py`:
 
@@ -134,25 +184,25 @@ The expected structure is:
 
 The image directories follow the convention required by `torchvision.datasets.ImageFolder`, so images must be placed inside at least one class subdirectory. Point clouds are plain-text `.xyz` files with three coordinate columns and are resampled to 2,048 points by the loader.
 
-## Supported tasks
+## Supported Tasks
 
-### Strand segmentation
+### Strand Segmentation
 
 Use the supplied binary masks to train and evaluate single-view or multiple-view segmentation methods.
 
-### Multiple-view granulometry
+### Multiple-View Granulometry
 
 Estimate strand height, width, and thickness from synchronized RGB views and, when enabled by the experiment, 3D point-cloud information.
 
-### Compliance classification
+### Compliance Classification
 
 Classify strands as compliant or non-compliant with respect to the manufacturer reference dimensions.
 
-### Multi-modal geometric learning
+### Multi-Modal Geometric Learning
 
 Study the fusion of visual and 3D representations for industrial geometric measurement.
 
-## Baseline architecture
+## Baseline Architecture
 
 The baseline combines:
 
@@ -178,9 +228,9 @@ graph LR
     H --> K[Thickness]
 ```
 
-## Supported image backbones
+## Supported Image Backbones
 
-### Residual architectures
+### Residual Architectures
 
 - `resnet18`
 - `resnet34`
@@ -193,7 +243,7 @@ graph LR
 - `wide_resnet50_2`
 - `wide_resnet101_2`
 
-### Foundation and modern architectures
+### Foundation and Modern Architectures
 
 - `dino_vitb14`
 - `clip_vitl14`
@@ -225,7 +275,7 @@ pip install torch torchvision timm numpy scikit-learn matplotlib Pillow PyYAML
 
 Install the PyTorch build suitable for the CUDA version available on the system.
 
-## PointNet++ checkpoint
+## PointNet++ Checkpoint
 
 The point-cloud encoder expects a pretrained PointNet++ classification checkpoint at:
 
@@ -238,7 +288,7 @@ code/Pointnet_Pointnet2_pytorch/log/classification/
 
 The checkpoint must contain a `model_state_dict` compatible with the bundled `pointnet2_cls_ssg` implementation. It can be produced using the bundled PointNet++ training code on ModelNet40, or replaced with the checkpoint used for the experiments.
 
-## Running the baseline code
+## Running the Baseline Code
 
 Run all commands from the `code/` directory:
 
@@ -246,7 +296,7 @@ Run all commands from the `code/` directory:
 cd code
 ```
 
-### Default experiment
+### Default Experiment
 
 ```bash
 python3 cnn_osb.py
@@ -275,7 +325,7 @@ python3 cnn_osb.py \
   --num_iterations 5
 ```
 
-### Plain decoder
+### Plain Decoder
 
 ```bash
 python3 cnn_osb.py \
@@ -283,7 +333,7 @@ python3 cnn_osb.py \
   --decoder plain
 ```
 
-### Gated decoder
+### Gated Decoder
 
 ```bash
 python3 cnn_osb.py \
@@ -291,7 +341,7 @@ python3 cnn_osb.py \
   --decoder gated
 ```
 
-### Multiple backbones
+### Multiple Backbones
 
 ```bash
 python3 cnn_osb.py \
@@ -299,7 +349,7 @@ python3 cnn_osb.py \
   --decoder mmoe
 ```
 
-### MMoE expert ablation
+### MMoE Expert Ablation
 
 ```bash
 python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --num_experts 1
@@ -309,17 +359,7 @@ python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --num_experts 64
 python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --num_experts 128
 ```
 
-### Learning-rate ablation
-
-```bash
-python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --base_lr 0.0006
-python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --base_lr 0.0012
-python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --base_lr 0.0024
-python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --base_lr 0.0036
-python3 cnn_osb.py --models dino_vitb14 --decoder mmoe --base_lr 0.0048
-```
-
-## Batch experiment scripts
+## Batch Experiment Scripts
 
 The `code/` directory includes scripts for groups of experiments:
 
@@ -332,7 +372,7 @@ bash test_resnets_original_fusion.sh
 
 Edit the `MODELS` array in the scripts to select the desired backbones.
 
-## Main command-line arguments
+## Main Command-Line Arguments
 
 | Argument | Default | Description |
 |---|---:|---|
@@ -353,7 +393,7 @@ Edit the `MODELS` array in the scripts to select the desired backbones.
 | `--num_experts` | `64` | Number of experts for MMoE |
 | `--trainModes` | `imagenet` | Training modes, for example `imagenet` or `scratch` |
 
-## Representative results
+## Representative Results
 
 The following values are reported as mean plus or minus standard deviation over strand-disjoint evaluation folds.
 
@@ -371,17 +411,23 @@ The following values are reported as mean plus or minus standard deviation over 
 
 Thickness remains the most challenging dimension, while DINO ViT-B/14 with point-cloud information provides the strongest overall results for height and width.
 
-## Related work
+## 🔗 Related Work: IPAN_3D
 
-Granulo-10k builds on earlier research on image-processing-based 3D granulometry:
+Granulo-10k is closely related to the earlier work on image-processing-based 3D granulometry.
 
-> R. Donida Labati, A. Genovese, E. Munoz, V. Piuri, and F. Scotti, "3-D granulometry using image processing," *IEEE Transactions on Industrial Informatics*, vol. 15, no. 3, pp. 1251-1264, 2019.
+The related repository provides MATLAB source code for the 2019 IEEE Transactions on Industrial Informatics paper:
 
-Related resources:
+> **3-D granulometry using image processing**  
+> R. Donida Labati, A. Genovese, E. Muñoz, V. Piuri, and F. Scotti  
+> *IEEE Transactions on Industrial Informatics*, vol. 15, no. 3, pp. 1251-1264, March 2019.
 
-- code: https://github.com/AngeloUNIMI/IPAN_3D
-- project page: http://iebil.di.unimi.it/projects/ipan
-- paper: https://ieeexplore.ieee.org/document/8411142
+Useful links:
+
+- Code: https://github.com/AngeloUNIMI/IPAN_3D
+- Project page: http://iebil.di.unimi.it/projects/ipan
+- Paper: https://ieeexplore.ieee.org/document/8411142
+
+It can be considered a methodological precursor for multiple-view industrial granulometry, while Granulo-10k provides a larger benchmark dataset for modern learning-based methods using synchronized images, masks, point clouds, and strand-level granulometric ground truth.
 
 ## Citation
 
