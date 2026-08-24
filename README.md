@@ -5,11 +5,15 @@
 ### A large-scale benchmark dataset and PyTorch baseline for multiple-view industrial granulometry
 
 [![Dataset](https://img.shields.io/badge/Dataset-Hugging%20Face-yellow?logo=huggingface)](https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Hugging%20Face%20Spaces-orange?logo=huggingface)](https://huggingface.co/spaces/AngeloUNIMI/Granulo-10k)
+[![Demo Model](https://img.shields.io/badge/Demo%20Model-Google%20Drive-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/152d1WBVDK9Gkx1JILr5CXt2bXvkyrNJK?usp=sharing)
 [![Related Code](https://img.shields.io/badge/Related-IPAN__3D-blue?logo=github)](https://github.com/AngeloUNIMI/IPAN_3D)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Task](https://img.shields.io/badge/Task-Industrial%203D%20Granulometry-green)](#supported-tasks)
 
 **Granulo-10k** provides synchronized RGB images, segmentation masks, strand-level measurements, 3D point clouds, and the code used for the baseline experiments described in the accompanying paper.
+
+The repository also includes the source code for the **public Gradio demo hosted on Hugging Face Spaces**, together with the source code for the **local demo application**, including the code needed to train the demo model and run the graphical user interface.
 
 </div>
 
@@ -25,6 +29,42 @@ Granulo-10k is designed for research on the geometric analysis of wood strands u
 - compliant versus non-compliant strand category.
 
 The repository also contains the PyTorch implementation used to evaluate convolutional networks, modern visual backbones, PointNet++ features, and multi-task decoders for joint granulometric regression.
+
+## 🚀 Public Interactive Demo
+
+A public browser-based demo of Granulo-10k strand measurement is available on Hugging Face Spaces:
+
+**https://huggingface.co/spaces/AngeloUNIMI/Granulo-10k**
+
+The demo provides an interactive interface for running the multimodal strand-measurement model on sample acquisitions. It includes:
+
+- synchronized RGB views;
+- strand height, width, and thickness prediction;
+- ground-truth comparison;
+- interactive 3D point-cloud visualization;
+- prediction history;
+- EMA smoothing;
+- expert-gating visualization for the multimodal model;
+- frontal and sideways acquisition handling.
+
+The **source code of the Gradio application used by the Hugging Face Space is included in this repository**, so the public demo can also be reproduced or adapted locally.
+
+## 🧪 Demo Application and Pretrained Model
+
+In addition to the research baseline code, this repository includes the source code for the local demonstration application, including:
+
+- the code used to train the demo model;
+- inference code;
+- the graphical user interface;
+- multimodal image and point-cloud processing;
+- visualization utilities;
+- the Gradio web interface used by the public Hugging Face Space.
+
+The pretrained model used by the demo application can be downloaded from Google Drive:
+
+**https://drive.google.com/drive/folders/152d1WBVDK9Gkx1JILr5CXt2bXvkyrNJK?usp=sharing**
+
+After downloading the checkpoint, place it at the location expected by the demo configuration or provide its path when launching the application.
 
 ## ✨ Dataset at a Glance
 
@@ -73,29 +113,59 @@ Each strand was dropped from random positions above the cameras while ensuring t
 
 ## 📦 Repository Structure
 
+The repository is organized as follows:
+
 ```text
 Granulo-10k/
 ├── README.md
 ├── LICENSE
+├── granulo10k.zip
 ├── figures/
 │   ├── fig1_acquisition_setup.png
 │   ├── fig2_dataset_examples.png
 │   ├── example.png
 │   └── setup.png
-└── code/
-    ├── cnn_osb.py
-    ├── README.md
-    ├── plain_exps.sh
-    ├── gated_exps.sh
-    ├── mmoe_exps.sh
-    ├── test_resnets_original_fusion.sh
-    ├── functions/
-    ├── modelGeno/
-    ├── util/
-    └── Pointnet_Pointnet2_pytorch/
+├── code/
+│   ├── cnn_osb.py
+│   ├── README.md
+│   ├── plain_exps.sh
+│   ├── gated_exps.sh
+│   ├── mmoe_exps.sh
+│   ├── test_resnets_original_fusion.sh
+│   ├── functions/
+│   ├── modelGeno/
+│   ├── util/
+│   └── Pointnet_Pointnet2_pytorch/
+└── demo/
+    ├── code/
+    │   └── training and inference code used by the demo model
+    ├── data/
+    │   └── sample data used by the demo applications
+    ├── demo_gui/
+    │   └── local graphical demo application
+    ├── granulo_hf_space/
+    │   └── Gradio application deployed on Hugging Face Spaces
+    └── models/
+        └── local model/checkpoint directory
 ```
 
-The root README introduces the complete dataset and repository. Additional implementation details are available in [`code/README.md`](code/README.md).
+The main `code/` directory contains the research baseline and experiment scripts described in the paper. Additional implementation details are available in [`code/README.md`](code/README.md).
+
+The `demo/` directory contains the complete demonstration pipeline:
+
+- `demo/code/` — code used to train and run the multimodal demo model;
+- `demo/data/` — sample acquisitions used by the demonstration software;
+- `demo/demo_gui/` — source code for the local desktop GUI;
+- `demo/granulo_hf_space/` — source code for the public Gradio application hosted on Hugging Face Spaces;
+- `demo/models/` — local directory for pretrained model checkpoints.
+
+The pretrained model used by the demo can be downloaded from:
+
+**https://drive.google.com/drive/folders/152d1WBVDK9Gkx1JILr5CXt2bXvkyrNJK?usp=sharing**
+
+The public web demo is available at:
+
+**https://huggingface.co/spaces/AngeloUNIMI/Granulo-10k**
 
 ## 📥 Downloading the Dataset
 
@@ -410,6 +480,14 @@ The following values are reported as mean plus or minus standard deviation over 
 | CLIP ViT-L/14 | Yes | 3.41 +/- 0.14 | 3.80 +/- 0.12 | 2.06 +/- 0.17 | 15.93 +/- 2.02 | 0.13 +/- 0.01 | 19.96 +/- 1.19 |
 
 Thickness remains the most challenging dimension, while DINO ViT-B/14 with point-cloud information provides the strongest overall results for height and width.
+
+## 🔗 Quick Links
+
+- **Public demo:** https://huggingface.co/spaces/AngeloUNIMI/Granulo-10k
+- **Dataset:** https://huggingface.co/datasets/AngeloUNIMI/Granulo-10k
+- **Pretrained demo model:** https://drive.google.com/drive/folders/152d1WBVDK9Gkx1JILr5CXt2bXvkyrNJK?usp=sharing
+- **Related IPAN_3D code:** https://github.com/AngeloUNIMI/IPAN_3D
+- **IEBIL Lab:** https://iebil.di.unimi.it/
 
 ## 🔗 Related Work: IPAN_3D
 

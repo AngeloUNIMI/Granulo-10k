@@ -1,0 +1,12 @@
+# ZeroGPU-supported PyTorch pair. Do not add/pin the `spaces` package here:
+# Hugging Face injects the matching ZeroGPU runtime package itself.
+torch==2.8.0
+torchvision==0.23.0
+
+# Experiment-1 DINOv3 backbone + web/demo dependencies.
+timm>=1.0.20,<1.1
+numpy>=1.26,<3
+Pillow>=10,<13
+opencv-python-headless>=4.10,<5
+plotly>=5.24,<7
+huggingface_hub>=0.34,<2
